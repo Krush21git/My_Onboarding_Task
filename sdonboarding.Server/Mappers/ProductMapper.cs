@@ -1,4 +1,5 @@
-﻿using sdonboarding.Server.Dtos;
+﻿using Microsoft.AspNetCore.Mvc;
+using sdonboarding.Server.Dtos;
 using sdonboarding.Server.Models;
 
 namespace sdonboarding.Server.Mappers
@@ -33,6 +34,11 @@ namespace sdonboarding.Server.Mappers
             entity.Name = dto.Name;
             entity.Price = dto.Price;
             // Map other fields as needed
+        }
+
+        internal static ActionResult<StoreDto> EntitytoDto(Store store)
+        {
+            throw new NotImplementedException();
         }
     }
 }
