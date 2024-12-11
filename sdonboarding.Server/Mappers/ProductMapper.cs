@@ -35,10 +35,5 @@ namespace sdonboarding.Server.Mappers
             entity.Price = dto.Price;
             // Map other fields as needed
         }
-
-        internal static ActionResult<StoreDto> EntitytoDto(Store store)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
