@@ -36,8 +36,7 @@ export const addCustomer = createAsyncThunk(
     }
   );
 
-  // Update customer
-export const updateCustomer = createAsyncThunk(
+  export const updateCustomer = createAsyncThunk(
     'customers/updateCustomer',
     async (customer, { rejectWithValue }) => {
       try {
@@ -46,15 +45,18 @@ export const updateCustomer = createAsyncThunk(
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(customer),
         });
-        if (!response.ok) throw new Error('Failed to update customer');
-        return await response.json(); // Return the updated customer data
+  
+        if (!response.ok) {
+          throw new Error('Failed to update customer');
+        }
+  
+        return await response.json(); // Return updated customer data
       } catch (error) {
         return rejectWithValue(error.message);
       }
     }
   );
   
-
 
   // Delete customer action
 export const deleteCustomer = createAsyncThunk(
