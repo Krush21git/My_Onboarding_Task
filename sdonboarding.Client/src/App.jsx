@@ -1,22 +1,19 @@
-import './App.css'
-import { useEffect, useState, Component } from 'react';
-import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from "./components/Navbar";
-import Footer from './components/Footer';
-//import Footer from "./components/Footer";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom'; // Import Routes and Route
+import Navbar from './components/Navbar';
+import CustomerList from './components/CustomerList'; // Example of a component for About page
+import './index.css';
+
 function App() {
   return (
-    <BrowserRouter>
-    <Navbar />
-    <Routes>
-      <Route>
-      </Route>
-    </Routes>
-    <Footer />
-    </BrowserRouter>
-
-  )
+    <div className="App">
+      <Routes> {/* Define your routes inside Routes component */}
+        <Route path="/" element={<Navbar />} />  {/* Home route */}
+        <Route path="/customers" element= {<CustomerList />} /> {/* About route */}
+        {/* Add more routes here as needed */}
+      </Routes>
+    </div>
+  );
 }
 
-export default App
+export default App;

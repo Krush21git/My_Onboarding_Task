@@ -20,7 +20,11 @@ export default defineConfig({
     },
     server: {
         proxy: {
-              },
+            '/api/customers':{
+                target,
+                secure: false
+            },
+        },
         port: 5173,
         https: false,
     }
