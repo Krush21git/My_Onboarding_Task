@@ -6,7 +6,7 @@ import './index.css';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" >
       <Routes> {/* Define your routes inside Routes component */}
         <Route path="/" element={<Navbar />} />  {/* Home route */}
         <Route path="/customers" element= {<CustomerList />} /> {/* About route */}
