@@ -12,7 +12,7 @@ const FormModal = ({ isOpen, isEditMode, currentData, onClose, onSave, onChange 
       <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
         <h2 className="text-xl font-bold mb-4">{isEditMode ? 'Edit Item' : 'Create Customer'}</h2>
         <form onSubmit={onSave}>
-        {formData.map((key) => (
+        {Object.keys(currentData).map((key) =>  key !== 'id' && (
             <div key={key} className="mb-4">
               <label className="block text-sm font-semibold mb-2 capitalize">{key}</label>
               <input

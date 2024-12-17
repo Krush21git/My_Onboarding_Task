@@ -24,6 +24,14 @@ export default defineConfig({
                 target,
                 secure: false
             },
+            '/api/products':{
+                target,
+                secure: false
+            },
+            // '/api/stores':{
+            //     target,
+            //     secure: false
+            // },
         },
         port: 5173,
         https: false,

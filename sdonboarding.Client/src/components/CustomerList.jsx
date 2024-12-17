@@ -90,7 +90,7 @@ const CustomerList = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <button onClick={() => { resetForm(); setShowModal(true)}} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+      <button onClick={() => { resetForm(); setShowModal(true)}} className="bg-blue-500 text-white px-4 py-2 rounded-md mb-8">
         Add Customer
       </button>
 
