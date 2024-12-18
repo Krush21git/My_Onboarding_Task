@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCustomers, addCustomer, updateCustomer, deleteCustomer, setCustomers } from '../features/customers/customerSlice';
-import DataTable from './DataTable';
-import FormModal from './FormModal';
-import ConfirmModal from './ConfirmModal';
+import { fetchCustomers, addCustomer, updateCustomer, deleteCustomer, setCustomers } from '../../features/customers/customerSlice';
+import DataTable from '../DataTable';
+import FormModal from '../FormModal';
+import ConfirmModal from '../ConfirmModal';
 
 const CustomerList = () => {
   const dispatch = useDispatch();
