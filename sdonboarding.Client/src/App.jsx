@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom'; // Import Routes and Route
+import { Routes, Route, Navigate} from 'react-router-dom'; // Import Routes and Route
 import Navbar from './components/Navbar';
 import CustomerList from './components/Customer/CustomerList'; // Example of a component for About page
 import './index.css';
@@ -11,6 +11,7 @@ function App() {
   return (
     <div className="App" >
       <Routes> {/* Define your routes inside Routes component */}
+        <Route path="/" element={<Navigate to="/customers" />} />
         <Route path="/customers" element= {<CustomerList />} /> {/* Customer route */}
         <Route path="/products" element= {<ProductList />} /> {/* Product route */}
         <Route path="/stores" element= {<StoreList />} /> {/*Store Route */}

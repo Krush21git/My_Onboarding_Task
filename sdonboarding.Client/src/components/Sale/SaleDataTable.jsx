@@ -71,7 +71,6 @@ const SaleDataTable = ({ sales, customers, products, stores, onEdit, onDelete })
         <table className="table-auto border-collapse border border-slate-300 w-full text-center">
           <thead>
             <tr>
-              <th className="border px-4 py-2">ID</th>
               <th className="border px-4 py-2">Customer</th>
               <th className="border px-4 py-2">Product</th>
               <th className="border px-4 py-2">Store</th>
@@ -84,7 +83,6 @@ const SaleDataTable = ({ sales, customers, products, stores, onEdit, onDelete })
             {paginatedSales.length > 0 ? (
               paginatedSales.map((sale, index) => (
                 <tr key={sale.id} className={index % 2 === 0 ? 'bg-slate-100' : 'bg-white'}>
-                  <td className="border px-4 py-2">{sale.id}</td>
                   <td className="border px-4 py-2">{getCustomerName(sale.customerId)}</td>
                   <td className="border px-4 py-2">{getProductName(sale.productId)}</td>
                   <td className="border px-4 py-2">{getStoreName(sale.storeId)}</td>
@@ -98,6 +96,7 @@ const SaleDataTable = ({ sales, customers, products, stores, onEdit, onDelete })
                       : 'N/A'}
                   </td>
                   <td className="border px-4 py-2">
+                   <center>
                     <button
                       className="flex items-center bg-yellow-500 text-white px-3 py-1 rounded shadow hover:bg-yellow-500 transition duration-300"
                       onClick={() => onEdit(sale)}
@@ -108,14 +107,17 @@ const SaleDataTable = ({ sales, customers, products, stores, onEdit, onDelete })
                       </svg>
                       Edit
                     </button>
+                    </center>
                   </td>
                   <td className="border px-4 py-2">
+                  <center>
                     <button
                       className="flex items-center bg-rose-600 text-white px-3 py-1 rounded shadow hover:bg-rose-600 transition duration-300"
                       onClick={() => handleDeleteClick(sale)}
                     >
                       Delete <TrashIcon className="h-5 w-5 mr-2" />
                     </button>
+                  </center>
                   </td>
                 </tr>
               ))
@@ -171,7 +173,9 @@ const SaleDataTable = ({ sales, customers, products, stores, onEdit, onDelete })
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
             <h3 className="text-lg font-bold mb-4">Confirm Delete</h3>
-            <p>Are you sure you want to delete this sale?</p>
+            <div className="text-left border-t border-b mb-4">
+              <p className="mb-4 mt-4">Are you sure ?</p>
+            </div>
             <div className="flex justify-end mt-4">
               <button
                 onClick={handleCloseModal}
@@ -181,9 +185,11 @@ const SaleDataTable = ({ sales, customers, products, stores, onEdit, onDelete })
               </button>
               <button
                 onClick={handleConfirmDelete}
-                className="bg-rose-600 text-white px-4 py-2 rounded-md hover:bg-rose-700"
+                className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-600  flex items-center"
               >
-                Confirm Delete
+                Delete <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 ml-2">
+    <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+  </svg> 
               </button>
             </div>
           </div>

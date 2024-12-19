@@ -84,13 +84,13 @@ const SaleForm = ({ isOpen, isEditMode, currentData, customers, products, stores
             <button
               type="button"
               onClick={onClose}
-              className="bg-gray-300 text-black px-4 py-2 rounded-md mr-2 hover:bg-gray-400"
+              className="bg-gray-900 text-white px-4 py-2 rounded-md mr-2 hover:bg-gray-400"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 flex items-center justify-center"
+              className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 flex items-center justify-center"
             >
               {isEditMode ? 'Edit Sale' : 'Create Sale'} <CheckIcon className="h-5 w-5 ml-2" />
             </button>

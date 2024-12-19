@@ -91,18 +91,18 @@ const CustomerList = () => {
   return (
     <div className="container mx-auto p-4">
       <button onClick={() => { resetForm(); setShowModal(true)}} className="bg-blue-500 text-white px-4 py-2 rounded-md mb-8">
-        Add Customer
+        New Customer
       </button>
 
       <DataTable
-  columns={['Name', 'Address']} // Specify the columns to display
-  data={customers}  // This will automatically update when the Redux state changes
-  onEdit={(customer) => handleEdit(customer, ['Name', 'Address'])}  // Handle edit
-  onDelete={(id) => {
-    setCustomerToDelete(id);
-    setShowConfirm(true); // Show the confirm modal for deletion
-  }}
-/>
+      columns={['Name', 'Address']} // Specify the columns to display
+      data={customers}  // This will automatically update when the Redux state changes
+      onEdit={(customer) => handleEdit(customer, ['Name', 'Address'])}  // Handle edit
+      onDelete={(id) => {
+      setCustomerToDelete(id);
+      setShowConfirm(true); // Show the confirm modal for deletion
+      }}
+      />
 
       <FormModal
         isOpen={showModal}
