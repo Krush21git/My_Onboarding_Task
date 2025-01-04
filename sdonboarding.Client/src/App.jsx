@@ -1,13 +1,19 @@
-import './App.css'
-import { useEffect, useState, Component } from 'react';
-import './App.css';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom'; // Import Routes and Route
+import Navbar from './components/Navbar';
+import CustomerList from './components/CustomerList'; // Example of a component for About page
+import './index.css';
 
 function App() {
   return (
-    <>
-      <h1>MVP Studio Onboarding</h1>
-    </>
-  )
+    <div className="App">
+      <Routes> {/* Define your routes inside Routes component */}
+        <Route path="/" element={<Navbar />} />  {/* Home route */}
+        <Route path="/customers" element= {<CustomerList />} /> {/* About route */}
+        {/* Add more routes here as needed */}
+      </Routes>
+    </div>
+  );
 }
 
-export default App
+export default App;
