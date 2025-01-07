@@ -1,4 +1,5 @@
 using System.Configuration;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using sdonboarding.Server.Models;
 
@@ -40,7 +41,11 @@ app.UseCors("AllowAll");
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c=>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Dispatch API V1");
+        c.RoutePrefix = string.Empty;
+    });
 }
 
 app.UseHttpsRedirection();

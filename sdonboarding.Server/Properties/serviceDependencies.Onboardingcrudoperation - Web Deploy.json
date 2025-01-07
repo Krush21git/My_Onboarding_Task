@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('serviceConnectorResourceGroupName')]/providers/Microsoft.Web/sites/Onboardingcrudoperation/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDefaultConnectionString_7D3849B8C0",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/onboardingtaskserver/databases/OnBoardingProject",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DefaultConnectionString",
+      "dynamicId": null
+    }
+  }
+}
