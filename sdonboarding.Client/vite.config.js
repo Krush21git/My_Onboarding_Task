@@ -8,7 +8,7 @@ import { env } from 'process';
 // Determine the API base URL based on the environment
 const target =
   env.NODE_ENV === 'production'
-    ? 'https://agreeable-cliff-0b0f20100.4.azurestaticapps.net/'
+    ? 'https://agreeable-cliff-0b0f20100.4.azurestaticapps.net'
     : env.ASPNETCORE_HTTPS_PORT
     ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
     : env.ASPNETCORE_URLS
