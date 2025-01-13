@@ -28,19 +28,19 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api/customers': {
+      '/api/Customers': {
         target,
         secure: false,
       },
-      '/api/products': {
+      '/api/Products': {
         target,
         secure: false,
       },
-      '/api/stores': {
+      '/api/Stores': {
         target,
         secure: false,
       },
-      '/api/sales': {
+      '/api/Sales': {
         target,
         secure: false,
       },
