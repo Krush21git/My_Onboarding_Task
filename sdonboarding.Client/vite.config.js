@@ -6,14 +6,11 @@ import fs from 'fs';
 import { env } from 'process';
 
 // Determine the API base URL based on the environment
+// Determine the API base URL based on the environment
 const target =
   env.NODE_ENV === 'production'
-    ? 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net'
-    : env.ASPNETCORE_HTTPS_PORT
-    ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
-    : env.ASPNETCORE_URLS
-    ? env.ASPNETCORE_URLS.split(';')[0]
-    : 'https://localhost:5001';
+    ? 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net' // Your Azure backend URL
+    : 'https://localhost:5001'; // For Production development process
 
 // https://vitejs.dev/config/
 export default defineConfig({
