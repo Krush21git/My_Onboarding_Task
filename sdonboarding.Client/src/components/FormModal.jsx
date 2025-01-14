@@ -23,7 +23,7 @@ const FormModal = ({ isOpen, isEditMode, currentData, onClose, onSave, onChange 
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
         <h2 className="text-xl font-bold mb-4">
-          {isEditMode ? `Edit ${singularItemType.charAt(0).toUpperCase() + singularItemType.slice(1)}` : `Add ${singularItemType.charAt(0).toUpperCase() + singularItemType.slice(1)}`}
+          {isEditMode ? `Edit ${singularItemType.charAt(0).toUpperCase() + singularItemType.slice(1)}` : `Create ${singularItemType.charAt(0).toUpperCase() + singularItemType.slice(1)}`}
         </h2>
         <form onSubmit={onSave}>
         {formData.map((key) => (
