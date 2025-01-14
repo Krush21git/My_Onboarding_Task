@@ -10,7 +10,7 @@ import { env } from 'process';
 const target =
   env.NODE_ENV === 'production'
     ? 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net' // Your Azure backend URL
-    : 'https://localhost:5001'; // For Production development process
+    : 'https://localhost:5001'; // For Local development process
 
 // https://vitejs.dev/config/
 export default defineConfig({
