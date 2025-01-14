@@ -3,28 +3,19 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const apiUrl = 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net/api/Customers';
 //const apiUrl = 'http://localhost:5158/api/customer'
+
 export const fetchCustomers = createAsyncThunk(
-    'customers/fetchCustomers',
-    async (_, { rejectWithValue }) => {
+  'customers/fetchCustomers',
+  async (_, { rejectWithValue }) => {
     try {
-        const response = await axios.get(apiUrl);
-        return response.data;
+      const response = await fetch(apiUrl);
+      if (!response.ok) throw new Error('Failed to fetch customers');
+      return await response.json();
     } catch (error) {
-        return rejectWithValue(error.response?.data?.message || error.message);
+      return rejectWithValue(error.message);
     }
-});
-// export const fetchCustomers = createAsyncThunk(
-//   'customers/fetchCustomers',
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const response = await fetch('/api/Customers');
-//       if (!response.ok) throw new Error('Failed to fetch customers');
-//       return await response.json();
-//     } catch (error) {
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
+  }
+);
 
 
 // Add customer
