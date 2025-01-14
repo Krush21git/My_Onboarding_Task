@@ -1,11 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Fetch customers
-console.log("test");
-const apiUrl = import.meta.env.VITE_API_URL;
-//console.log(apiUrl);
-console.log(`${apiUrl}`);
-
-//const apiUrl = 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net/api/Customers';
+//const apiUrl = import.meta.env.VITE_API_URL;
+//console.log(`${apiUrl}`);
+//console.log("test");
+const apiUrl = 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net';
 //const apiUrl = 'http://localhost:5158/api/customer'
 
 export const fetchCustomers = createAsyncThunk(
@@ -27,7 +25,7 @@ export const addCustomer = createAsyncThunk(
     'customers/addCustomer',
     async (customer, { rejectWithValue }) => {
       try {
-        const response = await fetch('/api/Customers', {
+        const response = await fetch(`${apiUrl}/api/Customers`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(customer),
@@ -47,7 +45,7 @@ export const addCustomer = createAsyncThunk(
     'customers/updateCustomer',
     async (customer, { rejectWithValue }) => {
       try {
-        const response = await fetch(`/api/Customers/${customer.id}`, {
+        const response = await fetch(`${apiUrl}/api/Customers/${customer.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(customer),
@@ -70,7 +68,7 @@ export const deleteCustomer = createAsyncThunk(
     'customers/deleteCustomer',
     async (customerId, { rejectWithValue }) => {
       try {
-        const response = await fetch(`/api/Customers/${customerId}`, {
+        const response = await fetch(`${apiUrl}/api/Customers/${customerId}`, {
           method: 'DELETE',
         });
         if (!response.ok) throw new Error('Failed to delete customer');
@@ -123,5 +121,4 @@ const customerSlice = createSlice({
   },
 });
 export const { setCustomers } = customerSlice.actions;
-
 export default customerSlice.reducer;
