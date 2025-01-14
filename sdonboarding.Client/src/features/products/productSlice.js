@@ -1,11 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+//const apiUrl = import.meta.env.VITE_API_URL;
+//console.log(`${apiUrl}`);
+//console.log("test");
+const apiUrl = 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net';
+//const apiUrl = 'http://localhost:5158/api/customer'
+
 // Fetch products
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/products');
+      const response = await fetch(`${apiUrl}/api/Products`);
       if (!response.ok) throw new Error('Failed to fetch products');
       return await response.json();
     } catch (error) {
@@ -19,7 +25,7 @@ export const addProduct = createAsyncThunk(
   'products/addProduct',
   async (product, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/products', {
+      const response = await fetch(`${apiUrl}/api/Products`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(product),
@@ -37,7 +43,7 @@ export const updateProduct = createAsyncThunk(
     'products/updateProduct',
     async (product, { rejectWithValue }) => {
       try {
-        const response = await fetch(`/api/products/${product.id}`, {
+        const response = await fetch(`${apiUrl}/api/Products/${product.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(product),
@@ -63,7 +69,7 @@ export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async (productId, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/api/products/${productId}`, {
+      const response = await fetch(`${apiUrl}/api/Products/${productId}`, {
         method: 'DELETE',
       });
       if (!response.ok) throw new Error('Failed to delete product');
