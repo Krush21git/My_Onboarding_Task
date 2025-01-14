@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Fetch customers
 console.log("test");
 const apiUrl = import.meta.env.VITE_API_URL;
-console.log(apiUrl);
+//console.log(apiUrl);
+console.log(`${apiUrl}`);
 
 //const apiUrl = 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net/api/Customers';
 //const apiUrl = 'http://localhost:5158/api/customer'
@@ -11,7 +12,7 @@ export const fetchCustomers = createAsyncThunk(
   'customers/fetchCustomers',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch(`${apiUrl}/api/Customers`);
       if (!response.ok) throw new Error('Failed to fetch customers');
       return await response.json();
     } catch (error) {
