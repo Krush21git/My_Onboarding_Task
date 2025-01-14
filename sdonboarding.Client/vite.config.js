@@ -1,18 +1,13 @@
 import { fileURLToPath, URL } from 'node:url';
-
 import { defineConfig } from 'vite';
 import plugin from '@vitejs/plugin-react';
 import fs from 'fs';
 import { env } from 'process';
-
-// Determine the API base URL based on the environment
-// Determine the API base URL based on the environment
+// Use import.meta.env.MODE to get the current mode
 const target =
-  env.NODE_ENV === 'production'
-    ? 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net' // Your Azure backend URL
-    : 'https://localhost:5001'; // For Local development process
-
-// https://vitejs.dev/config/
+  import.meta.env.MODE === 'production'
+    ? 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net'
+    : 'https://localhost:5001';
 export default defineConfig({
   plugins: [plugin()],
   resolve: {
@@ -43,6 +38,6 @@ export default defineConfig({
       },
     },
     port: 5173,
-    https: false,
+    https: import.meta.env.MODE === 'production', // Conditionally enable HTTPS
   },
 });
