@@ -1,13 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+// Fetch customers
 export const fetchCustomers = createAsyncThunk(
   'customers/fetchCustomers',
   async (_, { rejectWithValue }) => {
-    const apiUrl =
-      env.NODE_ENV === 'production'
-        ? 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net/api/Customers'
-        : '/api/Customers'; // Use local proxy during development
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch('/api/Customers');
       if (!response.ok) throw new Error('Failed to fetch customers');
       return await response.json();
     } catch (error) {
