@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Fetch customers
+console.log("test");
 const apiUrl = import.meta.env.VITE_API_URL;
 console.log(apiUrl);
+
 //const apiUrl = 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net/api/Customers';
 //const apiUrl = 'http://localhost:5158/api/customer'
 
