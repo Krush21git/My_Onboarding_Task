@@ -6,7 +6,7 @@ export const fetchCustomers = createAsyncThunk(
   'customers/fetchCustomers',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/customers');
+      const response = await fetch('/api/Customers');
       if (!response.ok) throw new Error('Failed to fetch customers');
       return await response.json();
     } catch (error) {
@@ -20,7 +20,7 @@ export const addCustomer = createAsyncThunk(
     'customers/addCustomer',
     async (customer, { rejectWithValue }) => {
       try {
-        const response = await fetch('/api/customers', {
+        const response = await fetch('/api/Customers', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(customer),
@@ -40,7 +40,7 @@ export const addCustomer = createAsyncThunk(
     'customers/updateCustomer',
     async (customer, { rejectWithValue }) => {
       try {
-        const response = await fetch(`/api/customers/${customer.id}`, {
+        const response = await fetch(`/api/Customers/${customer.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(customer),
@@ -63,7 +63,7 @@ export const deleteCustomer = createAsyncThunk(
     'customers/deleteCustomer',
     async (customerId, { rejectWithValue }) => {
       try {
-        const response = await fetch(`/api/customers/${customerId}`, {
+        const response = await fetch(`/api/Customers/${customerId}`, {
           method: 'DELETE',
         });
         if (!response.ok) throw new Error('Failed to delete customer');
