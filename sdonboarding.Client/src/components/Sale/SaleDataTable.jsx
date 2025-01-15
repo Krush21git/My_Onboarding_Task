@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 
-const SaleDataTable = ({ Sales, Customers, Products, Stores, onEdit, onDelete }) => {
+const SaleDataTable = ({ sales, customers, products, stores, onEdit, onDelete }) => {
   // State for controlling the delete modal
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [saleToDelete, setSaleToDelete] = useState(null);
@@ -12,17 +12,17 @@ const SaleDataTable = ({ Sales, Customers, Products, Stores, onEdit, onDelete })
 
   // Function to get the name for customer, product, and store
   const getCustomerName = (customerId) => {
-    const customer = Customers.find(c => c.id === customerId);
+    const customer = customers.find(c => c.id === customerId);
     return customer ? customer.name : 'N/A';
   };
 
   const getProductName = (productId) => {
-    const product = Products.find(p => p.id === productId);
+    const product = products.find(p => p.id === productId);
     return product ? product.name : 'N/A';
   };
 
   const getStoreName = (storeId) => {
-    const store = Stores.find(s => s.id === storeId);
+    const store = stores.find(s => s.id === storeId);
     return store ? store.name : 'N/A';
   };
 
@@ -53,10 +53,10 @@ const SaleDataTable = ({ Sales, Customers, Products, Stores, onEdit, onDelete })
   };
 
   // Get the sales data for the current page
-  const paginatedSales = Sales.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedSales = sales.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   // Total pages based on sales count and items per page
-  const totalPages = Math.ceil(Sales.length / itemsPerPage);
+  const totalPages = Math.ceil(sales.length / itemsPerPage);
 
   // Handle page change
   const handlePageChange = (page) => {
