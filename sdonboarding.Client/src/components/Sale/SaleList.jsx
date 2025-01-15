@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import SaleDataTable from './SaleDataTable';
 import SaleForm from './SaleForm';
 
+const apiUrl = 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net';
+
 const SaleList = () => {
   const [sales, setSales] = useState([]);
   const [customers, setCustomers] = useState([]);
@@ -15,10 +17,10 @@ const SaleList = () => {
     const fetchData = async () => {
       try {
         const [salesRes, customersRes, productsRes, storesRes] = await Promise.all([
-          fetch('/api/sales'),
-          fetch('/api/customers'),
-          fetch('/api/products'),
-          fetch('/api/stores'),
+          fetch(`${apiUrl}/api/Sales`),
+          fetch(`${apiUrl}/api/Customers`),
+          fetch(`${apiUrl}/api/Products`),
+          fetch(`${apiUrl}/api/Stores`),
         ]);
         const salesData = await salesRes.json();
         const customersData = await customersRes.json();
@@ -92,10 +94,10 @@ const SaleList = () => {
   const fetchData = async () => {
     try {
       const [salesRes, customersRes, productsRes, storesRes] = await Promise.all([
-        fetch('/api/sales'),
-        fetch('/api/customers'),
-        fetch('/api/products'),
-        fetch('/api/stores'),
+        fetch(`${apiUrl}/api/Sales`),
+        fetch(`${apiUrl}/api/Customers`),
+        fetch(`${apiUrl}/api/Products`),
+        fetch(`${apiUrl}/api/Stores`),
       ]);
       const salesData = await salesRes.json();
       const customersData = await customersRes.json();
@@ -122,7 +124,7 @@ const SaleList = () => {
   
     try {
       const method = isEditMode ? 'PUT' : 'POST';
-      const url = isEditMode ? `/api/sales/${currentSale.id}` : `/api/sales`;
+      const url = isEditMode ? `${apiUrl}/api/Sales/${currentSale.id}` : `${apiUrl}/api/Sales`;
   
       const response = await fetch(url, {
         method,
@@ -156,7 +158,7 @@ const SaleList = () => {
 
   const handleDeleteSale = async (id) => {
     try {
-      const response = await fetch(`/api/sales/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${apiUrl}/api/Sales/${id}`, { method: 'DELETE' });
       if (response.ok) {
         setSales((prevSales) => prevSales.filter((sale) => sale.id !== id));
       } else {
