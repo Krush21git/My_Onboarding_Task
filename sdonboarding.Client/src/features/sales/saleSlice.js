@@ -1,11 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+//const apiUrl = import.meta.env.VITE_API_URL;
+//console.log(`${apiUrl}`);
+//console.log("test");
+const apiUrl = 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net';
+
 // Async Thunk to fetch sales data
 export const fetchSales = createAsyncThunk(
   'sales/fetchSales',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/sales');
+      const response = await fetch(`${apiUrl}/api/Sales`);
       if (!response.ok) {
         throw new Error('Failed to fetch sales data');
       }
@@ -21,7 +26,7 @@ export const addSale = createAsyncThunk(
   'sales/addSale',
   async (newSale, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/sales', {
+      const response = await fetch(`${apiUrl}/api/Sales`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newSale),
@@ -41,7 +46,7 @@ export const updateSale = createAsyncThunk(
   'sales/updateSale',
   async (updatedSale, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/api/sales/${updatedSale.id}`, {
+      const response = await fetch(`${apiUrl}/api/Sales/${updatedSale.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedSale),
@@ -61,7 +66,7 @@ export const deleteSale = createAsyncThunk(
   'sales/deleteSale',
   async (saleId, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/api/sales/${saleId}`, {
+      const response = await fetch(`${apiUrl}/api/Sales/${saleId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
