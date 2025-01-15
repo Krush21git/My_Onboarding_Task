@@ -1,11 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+//const apiUrl = import.meta.env.VITE_API_URL;
+//console.log(`${apiUrl}`);
+//console.log("test");
+const apiUrl = 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net';
 
 // Fetch stores
 export const fetchStores = createAsyncThunk(
   'stores/fetchStores',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/stores');
+      const response = await fetch(`${apiUrl}/api/Stores`);
       if (!response.ok) throw new Error('Failed to fetch stores');
       return await response.json();
     } catch (error) {
@@ -19,7 +23,7 @@ export const addStore = createAsyncThunk(
   'stores/addStore',
   async (store, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/stores', {
+      const response = await fetch(`${apiUrl}/api/Stores`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(store),
@@ -37,7 +41,7 @@ export const updateStore = createAsyncThunk(
   'stores/updateStore',
   async (store, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/api/stores/${store.id}`, {
+      const response = await fetch(`${apiUrl}/api/Stores/${store.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(store),
@@ -55,7 +59,7 @@ export const deleteStore = createAsyncThunk(
   'stores/deleteStore',
   async (storeId, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/api/stores/${storeId}`, {
+      const response = await fetch(`${apiUrl}/api/Stores/${storeId}`, {
         method: 'DELETE',
       });
       if (!response.ok) throw new Error('Failed to delete store');
