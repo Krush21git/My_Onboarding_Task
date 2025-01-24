@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,22 +26,29 @@ namespace sdonboarding.Server.Controller
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StoreDto>>> GetStores()
         {
-            var _stores = await _context.Stores.ToListAsync();
-
-            if (_stores.Count > 0)
-
+            try
             {
+                // Attempt to fetch all stores from the database
+                var _stores = await _context.Stores.ToListAsync();
 
-                return Ok(_stores);
-
+                if (_stores.Count > 0)
+                {
+                    // Return the list of stores if available
+                    return Ok(_stores);
+                }
+                else
+                {
+                    // Return a 400 Bad Request if no stores are found
+                    return BadRequest("There are no stores.");
+                }
             }
-
-            else
-
+            catch (Exception ex)
             {
+                // Log the exception (use a proper logging framework in production)
+                Console.WriteLine($"An error occurred: {ex.Message}");
 
-                return BadRequest("There are no store");
-
+                // Return a 500 Internal Server Error response if an unexpected error occurs
+                return StatusCode(500, "An error occurred while retrieving stores.");
             }
 
 
@@ -51,14 +58,33 @@ namespace sdonboarding.Server.Controller
         [HttpGet("{id}")]
         public async Task<ActionResult<StoreDto>> GetStore(int id)
         {
-            var store = await _context.Stores.FindAsync(id);
-
-            if (store == null)
+            if (id <= 0)
             {
-                return NotFound();
+                return BadRequest("Invalid store ID provided.");
             }
 
-            return StoreMapper.EntitytoDto(store);
+            try
+            {
+                // Attempt to find the store by ID
+                var store = await _context.Stores.FindAsync(id);
+
+                if (store == null)
+                {
+                    return NotFound("Store not found.");
+                }
+
+                // Map the store entity to a DTO and return the result
+                return Ok(StoreMapper.EntitytoDto(store));
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use a proper logging framework in production)
+                Console.WriteLine($"An error occurred: {ex.Message}");
+
+                // Return a generic error response
+                return StatusCode(500, "An error occurred while retrieving the store.");
+            }
+
         }
 
         // PUT: api/Stores/5
@@ -66,6 +92,12 @@ namespace sdonboarding.Server.Controller
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStore(int id, StoreDto storeDto)
         {
+
+            if (id <= 0)
+            {
+                return BadRequest("Invalid store ID provided.");
+            }
+
             if (id != storeDto.Id)
             {
                 return BadRequest("Store ID mismatch.");
@@ -113,26 +145,71 @@ namespace sdonboarding.Server.Controller
         [HttpPost]
         public async Task<ActionResult<Store>> PostStore(StoreDto store)
         {
-            var entity = StoreMapper.DtotoEntity(store);
-            _context.Stores.Add(entity);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetStore", new { id = store.Id }, StoreMapper.EntitytoDto(entity));
+            if (store.Id <= 0)
+            {
+                return BadRequest("Invalid store ID provided.");
+            }
+
+            try
+            {
+                // Map the DTO to the entity
+                var entity = StoreMapper.DtotoEntity(store);
+
+                // Add the entity to the database context
+                _context.Stores.Add(entity);
+
+                // Save the changes to the database
+                await _context.SaveChangesAsync();
+
+                // Return a 201 Created response with the new store's details
+                return CreatedAtAction("GetStore", new { id = store.Id }, StoreMapper.EntitytoDto(entity));
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use a proper logging framework in production)
+                Console.WriteLine($"An error occurred: {ex.Message}");
+
+                // Return a generic error response for unexpected errors
+                return StatusCode(500, "An error occurred while creating the store.");
+            }
+
         }
 
         // DELETE: api/Stores/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStore(int id)
         {
-            var store = await _context.Stores.FindAsync(id);
-            if (store == null)
+            if (id <= 0)
             {
-                return NotFound();
+                return BadRequest("Invalid store ID provided.");
             }
 
-            _context.Stores.Remove(store);
-            await _context.SaveChangesAsync();
+            try
+            {
+                // Attempt to find the store by ID
+                var store = await _context.Stores.FindAsync(id);
 
-            return NoContent();
+                if (store == null)
+                {
+                    return NotFound("Store not found.");
+                }
+
+                // Remove the store from the database
+                _context.Stores.Remove(store);
+                await _context.SaveChangesAsync();
+
+                // Return NoContent to indicate successful deletion
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use a proper logging framework in production)
+                Console.WriteLine($"An error occurred: {ex.Message}");
+
+                // Return a 500 Internal Server Error response if an unexpected error occurs
+                return StatusCode(500, "An error occurred while deleting the store.");
+            }
+
         }
 
         private bool StoreExists(int id)
