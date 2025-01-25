@@ -93,9 +93,7 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
       {/* Pagination Controls */}
       <div className="flex justify-between items-center mt-4">
         <div className="flex items-center">
-          <label htmlFor="itemsPerPage" className="mr-2">
-            Items per page:
-          </label>
+          <label htmlFor="itemsPerPage" className="mr-2"></label>
           <select
             id="itemsPerPage"
             value={itemsPerPage}
