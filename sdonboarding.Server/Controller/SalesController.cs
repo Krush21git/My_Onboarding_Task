@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,36 +25,75 @@ namespace sdonboarding.Server.Controller
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SaleDto>>> GetSales()
         {
-            var sales = await _context.Sales.ToListAsync();
+            try
+            {
+                // Fetch the sales from the database
+                var sales = await _context.Sales.ToListAsync();
 
-            if (sales.Count > 0)
-            {
-                return Ok(sales.Select(SaleMapper.EntitytoDto).ToList());
+                if (sales.Count > 0)
+                {
+                    // Map the sales entities to DTOs and return them
+                    return Ok(sales.Select(SaleMapper.EntitytoDto).ToList());
+                }
+                else
+                {
+                    // Return a 400 Bad Request if no sales are found
+                    return BadRequest("There are no sales.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("There are no sales.");
+                // Log the exception (use a proper logging framework in production)
+                Console.WriteLine($"An error occurred: {ex.Message}");
+
+                // Return a 500 Internal Server Error response
+                return StatusCode(500, "An error occurred while retrieving sales.");
             }
+
         }
 
         // GET: api/Sales/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SaleDto>> GetSale(int id)
         {
-            var sale = await _context.Sales.FindAsync(id);
-
-            if (sale == null)
+            if (id <= 0)
             {
-                return NotFound("Sale not found.");
+                return BadRequest("Invalid sale ID provided.");
             }
 
-            return SaleMapper.EntitytoDto(sale);
+            try
+            {
+                // Attempt to find the sale by ID
+                var sale = await _context.Sales.FindAsync(id);
+
+                if (sale == null)
+                {
+                    return NotFound("Sale not found.");
+                }
+
+                // Map the sale entity to a DTO and return the result
+                return Ok(SaleMapper.EntitytoDto(sale));
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use a proper logging framework in production)
+                Console.WriteLine($"An error occurred: {ex.Message}");
+
+                // Return a generic error response
+                return StatusCode(500, "An error occurred while retrieving the sale.");
+            }
+
         }
 
-        // PUT: api/Sales/5
-        [HttpPut("{id}")]
+            // PUT: api/Sales/5
+            [HttpPut("{id}")]
         public async Task<IActionResult> PutSale(int id, SaleDto saleDto)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid sale ID provided.");
+            }
+
             if (id != saleDto.Id)
             {
                 return BadRequest("Sale ID mismatch.");
@@ -103,16 +142,37 @@ namespace sdonboarding.Server.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSale(int id)
         {
-            var sale = await _context.Sales.FindAsync(id);
-            if (sale == null)
+            if (id <= 0)
             {
-                return NotFound("Sale not found.");
+                return BadRequest("Invalid sale ID provided.");
             }
 
-            _context.Sales.Remove(sale);
-            await _context.SaveChangesAsync();
+            try
+            {
+                // Attempt to find the sale by ID
+                var sale = await _context.Sales.FindAsync(id);
 
-            return NoContent();
+                if (sale == null)
+                {
+                    return NotFound("Sale not found.");
+                }
+
+                // Remove the sale from the database
+                _context.Sales.Remove(sale);
+                await _context.SaveChangesAsync();
+
+                // Return 204 No Content response
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use a proper logging framework in production)
+                Console.WriteLine($"An error occurred: {ex.Message}");
+
+                // Return a 500 Internal Server Error response
+                return StatusCode(500, "An error occurred while deleting the sale.");
+            }
+
         }
 
         private bool SaleExists(int id)
