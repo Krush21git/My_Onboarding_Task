@@ -42,10 +42,11 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
           {paginatedData.map((row, index) => (
             <tr key={row.id} className={`${index % 2 === 0 ? 'bg-slate-100' : 'bg-white'}`}>
               {columns.map((col) => (
-                <td key={col} className="border border-slate-300 px-4 py-2">
-                   {col.toLowerCase() === 'price' 
-                      ? `$${row[col.toLowerCase()]}`  // Format price column with $
-                      : row[col.toLowerCase()]} {/* keys in `columns` match `data` object keys */}
+                <td key={col.id} className="border border-slate-300 px-4 py-2">
+                  {col.name.toLowerCase() === "price"
+                    ? `$${parseFloat(row[col.name.toLowerCase()]).toFixed(2)}`
+                    : row[col.name.toLowerCase()]}{" "}
+                  {/* keys in `columns` match `data` object keys */}
                 </td>
               ))}
               <td className="border border-slate-300 px-4 py-2 h-12">
