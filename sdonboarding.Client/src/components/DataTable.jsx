@@ -5,7 +5,7 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Default to 10 items per page
 
-  // Pagination logic: Calculate the data to display on the current page
+  // Pagination logic
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -24,44 +24,52 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
     setCurrentPage(1); // Reset to first page when items per page change
   };
 
+  // Helper function to render a table row
+  const renderRow = (row) => {
+    return columns.map((col, idx) => {
+      const cellValue =
+        col.toLowerCase() === "price"
+          ? `$${parseFloat(row[col.toLowerCase()]).toFixed(2)}` // Format price column
+          : row[col.toLowerCase()]; // Use data directly for other columns
+
+      return (
+        <td key={`${row.id}-${idx}`} className="border border-slate-300 px-4 py-2">
+          {cellValue}
+        </td>
+      );
+    });
+  };
+
   return (
     <div className="container mx-auto p-4">
       <table className="table-auto border-collapse border border-slate-300 w-full text-center">
         <thead>
           <tr>
-            {columns.map((col) => (
-              <th key={col.id} className="border px-4 py-2 border-slate-300">
-                {col.name}
+            {columns.map((col, index) => (
+              <th key={index} className="border px-4 py-2 border-slate-300">
+                {col}
               </th>
             ))}
-            <th className="border px-4 py-2 border-slate-300">Actions</th>
             <th className="border px-4 py-2 border-slate-300">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((row, index) => (
-            <tr key={row.id} className={`${index % 2 === 0 ? 'bg-slate-100' : 'bg-white'}`}>
-              {columns.map((col) => (
-                <td key={col.id} className="border border-slate-300 px-4 py-2">
-                  {col.name.toLowerCase() === 'price'
-                    ? `$${row[col.name.toLowerCase()]}` // Format price column with $
-                    : row[col.name.toLowerCase()]} {/* keys in `columns` match `data` object keys */}
-                </td>
-              ))}
+          {paginatedData.map((row, rowIndex) => (
+            <tr key={row.id || rowIndex} className={`${rowIndex % 2 === 0 ? "bg-slate-100" : "bg-white"}`}>
+              {renderRow(row)}
               <td className="border border-slate-300 px-4 py-2 h-12">
                 <center>
-                  <button className="flex items-center bg-yellow-500 text-white px-3 py-1 rounded shadow hover:bg-yellow-500 transition duration-300" onClick={() => onEdit(row, columns)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 h-5 w-5 mr-2">
-                      <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
-                      <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
-                    </svg>
+                  <button
+                    className="flex items-center bg-yellow-500 text-white px-3 py-1 rounded shadow hover:bg-yellow-600 transition duration-300"
+                    onClick={() => onEdit(row)}
+                  >
+                    <PencilIcon className="h-5 w-5 mr-2" />
                     Edit
                   </button>
-                </center>
-              </td>
-              <td className="border border-slate-300 px-4 py-2 h-12">
-                <center>
-                  <button className="flex items-center bg-rose-600 text-white px-3 py-1 rounded shadow hover:bg-rose-600 transition duration-300" onClick={() => onDelete(row.id)}>
+                  <button
+                    className="flex items-center bg-rose-600 text-white px-3 py-1 rounded shadow hover:bg-rose-700 transition duration-300 ml-2"
+                    onClick={() => onDelete(row.id)}
+                  >
                     <TrashIcon className="h-5 w-5 mr-2" />
                     Delete
                   </button>
