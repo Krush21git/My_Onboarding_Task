@@ -15,5 +15,10 @@ namespace sdonboarding.Server.Dtos
         [Range(0, double.MaxValue, ErrorMessage = "Price must be a non-negative value.")]
         public decimal? Price { get; set; }
 
+         // Optional: A read-only property to format Price for display purposes
+        public string FormattedPrice => Price.HasValue 
+            ? Price.Value.ToString("F2") // Formats with two decimal places
+            : "N/A";
+
     }
 }
