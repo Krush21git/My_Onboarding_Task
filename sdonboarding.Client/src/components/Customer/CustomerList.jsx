@@ -31,8 +31,6 @@ const CustomerList = () => {
   const handleSave = (e) => {
     e.preventDefault();
   
-    console.log('Customer data being saved:', currentCustomer); // Log current customer data
-  
     if (isEditMode) {
       if (currentCustomer.id) {
         // Optimistically update the state
@@ -43,10 +41,9 @@ const CustomerList = () => {
         dispatch(setCustomers(updatedCustomers));  // Update the local state immediately
   
         dispatch(updateCustomer(currentCustomer));  // Call the API to update
-      } else {
-        console.error('Customer ID is missing!');
-      }
-    } else {
+      } 
+    }
+    else {
       dispatch(addCustomer(currentCustomer));  // For adding a new customer
     }
   
@@ -79,12 +76,7 @@ const CustomerList = () => {
 
       setShowConfirm(false); // Close the confirmation modal
 
-    } else {
-
-      console.error('No customer selected for deletion.');
-
-    }
-
+    } 
   };
   
 
