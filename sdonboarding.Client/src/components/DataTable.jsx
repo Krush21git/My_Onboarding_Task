@@ -44,7 +44,7 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
               {columns.map((col) => (
                 <td key={col} className="border border-slate-300 px-4 py-2">
                    {col.toLowerCase() === 'price' 
-                      ? `$${row[col.toLowerCase()]}`  // Format price column with $
+                      ? `$${parseFloat(row[col.name.toLowerCase()]).toFixed(2)}`  // Format price column with $
                       : row[col.toLowerCase()]} {/* keys in `columns` match `data` object keys */}
                 </td>
               ))}
