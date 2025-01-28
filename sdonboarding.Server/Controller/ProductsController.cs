@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,29 +26,62 @@ namespace sdonboarding.Server.Controller
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
         {
-            var _products = await _context.Products.ToListAsync();
-            if (_products.Count > 0)
+            try
             {
-                return Ok(_products);
+                var _products = await _context.Products.ToListAsync();
+
+                if (_products.Count > 0)
+                {
+                    return Ok(_products);
+                }
+                else
+                {
+                    return BadRequest("There are no products available.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("There are no customer");
+                // Log the exception (optional: if you have a logging mechanism like Serilog, NLog, etc.)
+                Console.WriteLine($"An error occurred: {ex.Message}");
+
+                // Return a generic error message
+                return StatusCode(500, "An error occurred while retrieving the products.");
             }
+
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-
-            if (product == null)
+            try
             {
-                return NotFound();
+                // Check if the id is null or invalid
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid product ID provided.");
+                }
+
+                // Find the product by ID
+                var product = await _context.Products.FindAsync(id);
+
+                if (product == null)
+                {
+                    return NotFound("Product not found.");
+                }
+
+                // Map the product entity to a DTO and return the result
+                return Ok(ProductMapper.EntitytoDto(product));
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use a logging mechanism in production)
+                Console.WriteLine($"An error occurred: {ex.Message}");
+
+                // Return a generic error response
+                return StatusCode(500, "An error occurred while processing your request.");
             }
 
-            return ProductMapper.EntitytoDto(product);
         }
 
         // PUT: api/Products/5
@@ -57,6 +90,13 @@ namespace sdonboarding.Server.Controller
         public async Task<IActionResult> PutProduct(int id, ProductDto productDto)
         {            // Validate if the ID in the URL matches the ID in the DTO
 
+            // Validate the ID is greater than 0
+            if (id <= 0)
+            {
+                return BadRequest("Invalid product ID provided.");
+            }
+
+            // Validate that the route ID matches the DTO ID
             if (id != productDto.Id)
 
             {
@@ -104,30 +144,66 @@ namespace sdonboarding.Server.Controller
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(ProductDto product)
         {
-            var entity = ProductMapper.DtotoEntity(product);
+            try
+            {
+                // Map the DTO to an entity
+                var entity = ProductMapper.DtotoEntity(product);
 
-            _context.Products.Add(entity);
+                // Add the entity to the database
+                _context.Products.Add(entity);
 
-            await _context.SaveChangesAsync();
+                // Save the changes
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, ProductMapper.EntitytoDto(entity));
-            
+                // Return a 201 Created response with the new product details
+                return CreatedAtAction("GetProduct", new { id = entity.Id }, ProductMapper.EntitytoDto(entity));
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use a proper logging framework in production)
+                Console.WriteLine($"An error occurred: {ex.Message}");
+
+                // Return a 500 Internal Server Error response
+                return StatusCode(500, "An error occurred while creating the product.");
+            }
+
         }
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            if (id <= 0)
             {
-                return NotFound();
+                return BadRequest("Invalid product ID provided.");
             }
 
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            try
+            {
+                // Attempt to find the product by ID
+                var product = await _context.Products.FindAsync(id);
 
-            return NoContent();
+                if (product == null)
+                {
+                    return NotFound("Product not found.");
+                }
+
+                // Remove the product from the database
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+
+                // Return 204 No Content response
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use a logging framework in production)
+                Console.WriteLine($"An error occurred: {ex.Message}");
+
+                // Return a 500 Internal Server Error response
+                return StatusCode(500, "An error occurred while deleting the product.");
+            }
+
         }
 
         private bool ProductExists(int id)
