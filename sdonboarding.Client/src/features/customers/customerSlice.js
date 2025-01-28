@@ -35,7 +35,7 @@ export const addCustomer = createAsyncThunk(
         if (!response.ok) throw new Error('Failed to add customer');
   
         const data = await response.json();
-        console.log('API Response:', data); // Add this for debugging
+       // console.log('API Response:', data); // Add this for debugging
         return data; // Ensure this returns the new customer object
       } catch (error) {
         return rejectWithValue(error.message);
