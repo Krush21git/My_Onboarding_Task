@@ -51,6 +51,7 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
               </th>
             ))}
             <th className="border px-4 py-2 border-slate-300">Actions</th>
+            <th className="border px-4 py-2 border-slate-300">Actions</th>
           </tr>
         </thead>
         <tbody>
