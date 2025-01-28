@@ -46,10 +46,12 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
             >
               {columns.map((col) => (
                 <td key={col.id} className="border border-slate-300 px-4 py-2">
-                  {col.name.toLowerCase() === "price"
-                    ? `$${parseFloat(row[col.name.toLowerCase()]).toFixed(2)}`
-                    : row[col.name.toLowerCase()]}{" "}
-                  {/* keys in `columns` match `data` object keys */}
+                  {/* Ensure col.name is defined and is a string */}
+                  {col.name && typeof col.name === 'string' && row[col.name] !== undefined
+                    ? col.name.toLowerCase() === "price"
+                      ? `$${parseFloat(row[col.name]).toFixed(2)}`
+                      : row[col.name]
+                    : "N/A"} {/* Default to "N/A" if no data */}
                 </td>
               ))}
               <td className="border border-slate-300 px-4 py-2 h-12">
