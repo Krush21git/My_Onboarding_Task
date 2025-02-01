@@ -68,6 +68,8 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
                   <PencilIcon className="h-5 w-5 mr-2" />
                   Edit
                 </button>
+            </td>
+            <td>
                 <button
                   className="flex items-center bg-rose-600 text-white px-3 py-1 rounded shadow hover:bg-rose-700 transition duration-300"
                   onClick={() => onDelete(row.id)}
