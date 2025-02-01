@@ -25,20 +25,23 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
   };
 
   // Helper function to render a table row
-  const renderRow = (row) => {
-    return columns.map((col, idx) => {
-      const cellValue =
-        col.toLowerCase() === "price"
-          ? `$${parseFloat(row[col.toLowerCase()]).toFixed(2)}` // Format price column
-          : row[col.toLowerCase()]; // Use data directly for other columns
+const renderRow = (row) => {
+  return columns.map((col, idx) => {
+    let cellValue;
+    if (col.toLowerCase() === "price") {
+      // Make sure the price is always displayed with two decimal points
+      cellValue = `$${parseFloat(row[col.toLowerCase()]).toFixed(2)}`;
+    } else {
+      cellValue = row[col.toLowerCase()];
+    }
 
-      return (
-        <td key={`${row.id}-${idx}`} className="border border-slate-300 px-4 py-2">
-          {cellValue}
-        </td>
-      );
-    });
-  };
+    return (
+      <td key={`${row.id}-${idx}`} className="border border-slate-300 px-4 py-2">
+        {cellValue}
+      </td>
+    );
+  });
+};
 
   return (
     <div className="container mx-auto p-4">
