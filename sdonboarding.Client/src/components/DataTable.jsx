@@ -25,23 +25,23 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
   };
 
   // Helper function to render a table row
-const renderRow = (row) => {
-  return columns.map((col, idx) => {
-    let cellValue;
-    if (col.toLowerCase() === "price") {
-      // Make sure the price is always displayed with two decimal points
-      cellValue = `$${parseFloat(row[col.toLowerCase()]).toFixed(2)}`;
-    } else {
-      cellValue = row[col.toLowerCase()];
-    }
+  const renderRow = (row) => {
+    return columns.map((col, idx) => {
+      let cellValue;
+      if (col.toLowerCase() === "price") {
+        // Ensure the price is correctly formatted
+        cellValue = `$${parseFloat(row[col.toLowerCase()] || 0).toFixed(2)}`;
+      } else {
+        cellValue = row[col.toLowerCase()];
+      }
 
-    return (
-      <td key={`${row.id}-${idx}`} className="border border-slate-300 px-4 py-2">
-        {cellValue}
-      </td>
-    );
-  });
-};
+      return (
+        <td key={`${row.id}-${idx}`} className="border border-slate-300 px-4 py-2">
+          {cellValue}
+        </td>
+      );
+    });
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -54,34 +54,27 @@ const renderRow = (row) => {
               </th>
             ))}
             <th className="border px-4 py-2 border-slate-300">Actions</th>
-            <th className="border px-4 py-2 border-slate-300">Actions</th>
           </tr>
         </thead>
         <tbody>
           {paginatedData.map((row, rowIndex) => (
             <tr key={row.id || rowIndex} className={`${rowIndex % 2 === 0 ? "bg-slate-100" : "bg-white"}`}>
               {renderRow(row)}
-              <td className="border border-slate-300 px-4 py-2 h-12">
-                <center>
-                  <button
-                    className="flex items-center bg-yellow-500 text-white px-3 py-1 rounded shadow hover:bg-yellow-600 transition duration-300"
-                    onClick={() => onEdit(row)}
-                  >
-                    <PencilIcon className="h-5 w-5 mr-2" />
-                    Edit
-                  </button>
-                  </center>
-              </td>
-               <td className="border border-slate-300 px-4 py-2 h-12">
-                <center>
-                  <button
-                    className="flex items-center bg-rose-600 text-white px-3 py-1 rounded shadow hover:bg-rose-700 transition duration-300 ml-2"
-                    onClick={() => onDelete(row.id)}
-                  >
-                    <TrashIcon className="h-5 w-5 mr-2" />
-                    Delete
-                  </button>
-                </center>
+              <td className="border border-slate-300 px-4 py-2 h-12 flex justify-center space-x-2">
+                <button
+                  className="flex items-center bg-yellow-500 text-white px-3 py-1 rounded shadow hover:bg-yellow-600 transition duration-300"
+                  onClick={() => onEdit(row)}
+                >
+                  <PencilIcon className="h-5 w-5 mr-2" />
+                  Edit
+                </button>
+                <button
+                  className="flex items-center bg-rose-600 text-white px-3 py-1 rounded shadow hover:bg-rose-700 transition duration-300"
+                  onClick={() => onDelete(row.id)}
+                >
+                  <TrashIcon className="h-5 w-5 mr-2" />
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
