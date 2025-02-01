@@ -145,7 +145,7 @@ namespace sdonboarding.Server.Controller
         [HttpPost]
         public async Task<ActionResult<Store>> PostStore(StoreDto store)
         {
-            if (store.Id <= 0)
+            if (store.Id < 0)
             {
                 return BadRequest("Invalid store ID provided.");
             }
