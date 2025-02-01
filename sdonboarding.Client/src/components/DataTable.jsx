@@ -54,6 +54,7 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
               </th>
             ))}
             <th className="border px-4 py-2 border-slate-300">Actions</th>
+            <th className="border px-4 py-2 border-slate-300">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -69,7 +70,7 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
                   Edit
                 </button>
             </td>
-            <td>
+            <td className="border border-slate-300 px-4 py-2 h-12 flex justify-center space-x-2">
                 <button
                   className="flex items-center bg-rose-600 text-white px-3 py-1 rounded shadow hover:bg-rose-700 transition duration-300"
                   onClick={() => onDelete(row.id)}
