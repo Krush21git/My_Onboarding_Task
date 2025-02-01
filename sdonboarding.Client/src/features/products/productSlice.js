@@ -1,10 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-//const apiUrl = import.meta.env.VITE_API_URL;
-//console.log(`${apiUrl}`);
-//console.log("test");
 const apiUrl = 'https://onboardingcrudoperation-d7ggg0e9ajagdsbp.australiaeast-01.azurewebsites.net';
-//const apiUrl = 'http://localhost:5158/api/customer'
 
 // Fetch products
 export const fetchProducts = createAsyncThunk(
@@ -13,7 +9,13 @@ export const fetchProducts = createAsyncThunk(
     try {
       const response = await fetch(`${apiUrl}/api/Products`);
       if (!response.ok) throw new Error('Failed to fetch products');
-      return await response.json();
+      const products = await response.json();
+
+      // Format price correctly before storing it in Redux
+      return products.map(product => ({
+        ...product,
+        price: parseFloat(product.price).toFixed(2),  // Ensure price always has two decimals
+      }));
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -31,7 +33,13 @@ export const addProduct = createAsyncThunk(
         body: JSON.stringify(product),
       });
       if (!response.ok) throw new Error('Failed to add product');
-      return await response.json();
+      const newProduct = await response.json();
+      
+      // Ensure price is formatted before adding it to state
+      return {
+        ...newProduct,
+        price: parseFloat(newProduct.price).toFixed(2),
+      };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -40,29 +48,27 @@ export const addProduct = createAsyncThunk(
 
 // Update product
 export const updateProduct = createAsyncThunk(
-    'products/updateProduct',
-    async (product, { rejectWithValue }) => {
-      try {
-        const response = await fetch(`${apiUrl}/api/Products/${product.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(product),
-        });
-        if (!response.ok) {
+  'products/updateProduct',
+  async (product, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${apiUrl}/api/Products/${product.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(product),
+      });
+      if (!response.ok) throw new Error('Failed to update product');
 
-            throw new Error('Failed to update product');
-  
-          }
-  
-          return await response.json(); // Return updated customer data
-  
-        } catch (error) {
-  
-          return rejectWithValue(error.message);
-  
-        }
+      const updatedProduct = await response.json();
+
+      return {
+        ...updatedProduct,
+        price: parseFloat(updatedProduct.price).toFixed(2),
+      };
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
-  );
+  }
+);
 
 // Delete product
 export const deleteProduct = createAsyncThunk(
@@ -107,10 +113,10 @@ const productSlice = createSlice({
         state.data.push(action.payload);
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
-        const updatedProduct = action.payload; // The updated product from the API
+        const updatedProduct = action.payload;
         const index = state.data.findIndex((product) => product.id === updatedProduct.id);
         if (index !== -1) {
-          state.data[index] = updatedProduct; // Update the product in the state
+          state.data[index] = updatedProduct;
         }
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
