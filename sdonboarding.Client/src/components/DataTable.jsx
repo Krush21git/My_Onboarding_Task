@@ -59,9 +59,10 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
         </thead>
         <tbody>
           {paginatedData.map((row, rowIndex) => (
-            <tr key={row.id || rowIndex} className={`${rowIndex % 2 === 0 ? "bg-slate-100" : "bg-white"}`}>
+          <tr key={row.id || rowIndex} className={`${rowIndex % 2 === 0 ? "bg-slate-100" : "bg-white"}`}>
               {renderRow(row)}
-              <td className="border border-slate-300 px-4 py-2 h-12 flex justify-center space-x-2">
+            <td className="border border-slate-300 px-4 py-2 h-12 space-x-2">
+                <center>
                 <button
                   className="flex items-center bg-yellow-500 text-white px-3 py-1 rounded shadow hover:bg-yellow-600 transition duration-300"
                   onClick={() => onEdit(row)}
@@ -69,8 +70,10 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
                   <PencilIcon className="h-5 w-5 mr-2" />
                   Edit
                 </button>
+                </center>
             </td>
-            <td className="border border-slate-300 px-4 py-2 h-12 flex justify-center space-x-2">
+            <td className="border border-slate-300 px-4 py-2 h-12 space-x-2">
+                <center>
                 <button
                   className="flex items-center bg-rose-600 text-white px-3 py-1 rounded shadow hover:bg-rose-700 transition duration-300"
                   onClick={() => onDelete(row.id)}
@@ -78,6 +81,7 @@ const DataTable = ({ columns, data, onEdit, onDelete }) => {
                   <TrashIcon className="h-5 w-5 mr-2" />
                   Delete
                 </button>
+                </center>
               </td>
             </tr>
           ))}
