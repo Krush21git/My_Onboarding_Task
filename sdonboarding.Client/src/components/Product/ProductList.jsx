@@ -14,9 +14,22 @@ const ProductList = () => {
   const [currentProduct, setCurrentProduct] = useState({ name: '', price: '' });
   const [productToDelete, setProductToDelete] = useState(null);
 
+  // useEffect(() => {
+  //   dispatch(fetchProducts());
+  // }, [dispatch]);
+
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    dispatch(fetchProducts()).then((response) => {
+      if (response.payload) {
+        // Ensure all prices are formatted correctly
+        const formattedProducts = response.payload.map(product => ({
+          ...product,
+          price: parseFloat(product.price).toFixed(2), // Ensure two decimal places
+        }));
+        dispatch(setProducts(formattedProducts));
+      }
+    });
+  }, [dispatch]);  
 
   const resetForm = () => {
     setIsEditMode(false);
@@ -28,39 +41,79 @@ const ProductList = () => {
     setCurrentProduct({ ...currentProduct, [name]: value });
   };
 
+  // const handleSave = (e) => {
+  //   e.preventDefault();
+    
+  //   if (isEditMode) {
+  //     if (currentProduct.id) {
+  //       // Optimistic update
+  //       const updatedProduct = { ...currentProduct };
+  //       const updatedProducts = products.map((product) =>
+  //         product.id === currentProduct.id ? updatedProduct : product
+  //       );
+  //       dispatch(setProducts(updatedProducts));
+  //       dispatch(updateProduct(currentProduct)); // Update the product via API
+  //     } else {
+  //       console.error('Product ID is missing!');
+  //     }
+  //   } else {
+  //     dispatch(addProduct(currentProduct)); // Add new product
+  //   }
+    
+  //   setShowModal(false);
+  //   resetForm();
+  // };
+
+
   const handleSave = (e) => {
     e.preventDefault();
     
+    const formattedProduct = {
+      ...currentProduct,
+      price: parseFloat(currentProduct.price).toFixed(2) // Ensure two decimal places
+    };
+  
     if (isEditMode) {
-      if (currentProduct.id) {
-        // Optimistic update
-        const updatedProduct = { ...currentProduct };
+      if (formattedProduct.id) {
+        // Optimistic update in Redux state
         const updatedProducts = products.map((product) =>
-          product.id === currentProduct.id ? updatedProduct : product
+          product.id === formattedProduct.id ? formattedProduct : product
         );
         dispatch(setProducts(updatedProducts));
-        dispatch(updateProduct(currentProduct)); // Update the product via API
+        dispatch(updateProduct(formattedProduct)); // Update API with correctly formatted price
       } else {
         console.error('Product ID is missing!');
       }
     } else {
-      dispatch(addProduct(currentProduct)); // Add new product
+      dispatch(addProduct(formattedProduct)); // Add new product with formatted price
     }
     
     setShowModal(false);
     resetForm();
   };
 
+
+  // const handleEdit = (product) => {
+  //   setCurrentProduct({
+  //     id: product.id,
+  //     name: product.name,
+  //     price: product.price,
+  //   });
+  //   setIsEditMode(true);
+  //   setShowModal(true);
+  // };
+
+
   const handleEdit = (product) => {
     setCurrentProduct({
       id: product.id,
       name: product.name,
-      price: product.price,
+      price: parseFloat(product.price).toFixed(2), // Ensure two decimal places
     });
     setIsEditMode(true);
     setShowModal(true);
   };
-
+  
   const handleDelete = () => {
     if (productToDelete) {
       dispatch(deleteProduct(productToDelete));
